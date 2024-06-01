@@ -1,0 +1,15 @@
+{
+  "params":
+  {
+    "local_server": "True",
+    "local_uri": "postgresql://postgres:admin@localhost:5432/Flask",
+    "prod_uri": "",
+    "facebook_uri": "https://www.facebook.com/",
+    "twitter_uri": "https://twitter.com/?lang=en",
+    "github_uri": "https://github.com/",
+    "blog_name": "Clean Blog",
+    "no_of_posts_per_page": 2,
+    "admin_user": "shubham@gmail.com",
+    "admin_password": "sb@1234"
+  }
+}

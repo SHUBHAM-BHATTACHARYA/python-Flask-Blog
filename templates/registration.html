@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{ url_for('static', filename = 'css/styles.css')}}" rel="stylesheet" />
+
+        <style>
+
+          /* The message box is shown when the user clicks on the password field */
+          #message {
+            display:none;
+            background: #f1f1f1;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+          }
+
+          #message p {
+            padding: 10px 35px;
+            font-size: 18px;
+          }
+
+          /* Add a green text color and a checkmark when the requirements are right */
+          .valid {
+            color: green;
+          }
+
+          .valid:before {
+            position: relative;
+            left: -35px;
+            content: '✔';
+          }
+
+          /* Add a red text color and an "x" icon when the requirements are wrong */
+          .invalid {
+            color: red;
+          }
+
+          .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "X";
+          }
+
+          /* The message box is shown when the user clicks on the password field */
+          #passbox {
+            display:none;
+            background: #f1f1f1;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+          }
+
+          #passbox p {
+            padding: 10px 35px;
+            font-size: 18px;
+          }
+        </style>
+</head>
+<body>
+    <section class="vh-100" style="background-color: #eee;">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-lg-12 col-xl-11">
+            <div class="card text-black" style="border-radius: 25px;">
+              <div class="card-body p-md-5">
+                <div class="row justify-content-center">
+                  <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                    {% if error==True and flag == "already_have_account" %}
+                    <div class="alert alert-danger" role="alert">
+                       Already have an account
+                    </div>
+                   {% endif %}
+                    {% if error==True and flag == "password_mismatch" %}
+                    <div class="alert alert-danger" role="alert">
+                       Provided password and confirm password are not same
+                    </div>
+                   {% endif %}
+
+                    <form class="mx-1 mx-md-4" action="/register" method="post">
+
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                        <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                          <input type="text" id="name" name ="name"  class="form-control" required/>
+                          <label class="form-label" for="name">Your Name</label>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                          <input type="email" id="email" name ="email" class="form-control" required/>
+                          <label class="form-label" for="email">Your Email</label>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                        <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                          <input type="password" id="psw" name ="psw" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                 title="Must contain at least one number and one uppercase and lowercase letter and one special character
+                                  and at least 8 or more characters"
+                                 required/>
+                          <label class="form-label" for="psw">Password</label>
+                        </div>
+                      </div>
+
+                      <!-- For displaying the message box for password validation -->
+                      <div id="message">
+                        <h3>Password must contain the following:</h3>
+                        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                        <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                        <p id="special" class="invalid">A <b>special character</b></p>
+                        <p id="number" class="invalid">A <b>number</b></p>
+                        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                        <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                          <input type="password" id="pass" name ="pass" class="form-control" required/>
+                          <label class="form-label" for="pass">Reconfirm your password</label>
+                        </div>
+                      </div>
+
+                      <!-- For displaying the message box for password and repeat password validation -->
+                      <div id="passbox">
+                        <p id="passletter" class="invalid"><b>password</b> must be same</p>
+                      </div>
+
+                      <div class="form-check d-flex justify-content-center mb-5">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" required/>
+                        <label class="form-check-label" for="form2Example3">
+                          I agree all statements in <a href="#!">Terms of service</a>
+                        </label>
+                      </div>
+
+                      <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                      </div>
+
+                    </form>
+
+                  </div>
+                  <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                    <img src="{{ url_for('static', filename ='assets/img/registration.webp')}}"
+                      class="img-fluid" alt="Sample image">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <script>
+      var myInput = document.getElementById("psw");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var special = document.getElementById("special");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+
+      var repeatPass = document.getElementById("pass");
+      var passletter = document.getElementById("passletter");
+
+      // When the user clicks on the password field, show the message box
+      myInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+      }
+
+      // When the user clicks outside of the password field, hide the message box
+      myInput.onblur = function() {
+        document.getElementById("message").style.display = "none";
+      }
+
+      // When the user clicks on the repeat password field, show the message box
+      repeatPass.onfocus = function() {
+        document.getElementById("passbox").style.display = "block";
+      }
+
+      // When the user clicks outside of the repeat password field, hide the message box
+      repeatPass.onblur = function() {
+        document.getElementById("passbox").style.display = "none";
+      }
+
+      // When the user starts to type something inside the password field
+      myInput.onkeyup = function() {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {
+          letter.classList.remove("invalid");
+          letter.classList.add("valid");
+        } else {
+          letter.classList.remove("valid");
+          letter.classList.add("invalid");
+      }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {
+          capital.classList.remove("invalid");
+          capital.classList.add("valid");
+        } else {
+          capital.classList.remove("valid");
+          capital.classList.add("invalid");
+        }
+
+        // Validate special letters
+        var specialCharacter = /[!@#$%^&*]/g;
+        if(myInput.value.match(specialCharacter)) {
+          special.classList.remove("invalid");
+          special.classList.add("valid");
+        } else {
+          special.classList.remove("valid");
+          special.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {
+          number.classList.remove("invalid");
+          number.classList.add("valid");
+        } else {
+          number.classList.remove("valid");
+          number.classList.add("invalid");
+        }
+
+        // Validate length
+        if(myInput.value.length >= 8) {
+          length.classList.remove("invalid");
+          length.classList.add("valid");
+        } else {
+          length.classList.remove("valid");
+          length.classList.add("invalid");
+        }
+      }
+
+      // When the user starts to typing something inside the repeat password field
+      repeatPass.onkeyup = function(){
+        // Validate both password is same
+        if(repeatPass.value.match(myInput.value) && myInput.value.match(repeatPass.value)) {
+          passletter.classList.remove("invalid");
+          passletter.classList.add("valid");
+        } else {
+          passletter.classList.remove("valid");
+          passletter.classList.add("invalid");
+        }
+      }
+      </script>
+</body>
+</html>
